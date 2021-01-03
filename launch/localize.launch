@@ -30,14 +30,19 @@
 	<include file="$(find particle_filter)/launch/map_server.launch"/>
 
 	<arg name="scan_topic" default="/scan"/>
-	<arg name="odometry_topic" default="/vesc/odom"/>
-	<!-- <arg name="odometry_topic" default="/odom"/> -->
+	<arg name="odometry_topic" default="/odom"/>
 	<arg name="angle_step" default="18"/>
 	<arg name="max_particles" default="4000"/>
 	<arg name="squash_factor" default="2.2"/>
 	<arg name="viz" default="1"/>
+	<arg name="publish_map_to_odom" default="1"/>
+	<arg name="transform_tolerance" default="0.5"/>
 	
 	<node pkg="particle_filter" type="particle_filter.py" name="Particle_filter" output="screen">
+		<!-- tf tree setup -->
+		<param name="publish_map_to_odom" value="$(arg publish_map_to_odom)"/>
+		<param name="transform_tolerance" value="$(arg transform_tolerance)"/>
+		<!-- topics setup -->
 		<param name="scan_topic" value="$(arg scan_topic)"/>
 		<param name="odometry_topic" value="$(arg odometry_topic)"/>
 		<!-- range data is downsampled by this factor -->
